@@ -27,9 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Detail
         let detailViewController = HouseDetailViewController(model: tabBarController.houseListViewController.lastSelectedHouse()).wrappedInNavigation()
 
-        detailViewController.navigationItem.leftItemsSupplementBackButton = true
-        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-
         splitViewController.viewControllers = [
             tabBarController,
             detailViewController

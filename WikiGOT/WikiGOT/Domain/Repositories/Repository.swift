@@ -57,16 +57,12 @@ final class LocalFactory: HouseFactory, SeasonFactory {
         let targaryenHouse = House(name: "Targaryen", sigil: targaryenSigil, words: "Fuego y Sangre", url:targaryenURL )
 
         // Characters
-        let robb = Person(name: "Robb", alias: "El Joven Lobo", house: starkHouse)
-        let arya = Person(name: "Arya", house: starkHouse)
-        let tyrion = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse)
-        let cersei = Person(name: "Cersei", house: lannisterHouse)
-        let jaime = Person(name: "Jaime", alias: "El matarreyes", house: lannisterHouse)
-        let dani = Person(name: "Daenerys", alias: "Madre de dragones", house: targaryenHouse)
-
-        starkHouse.add(persons: arya, robb)
-        lannisterHouse.add(persons: tyrion, jaime, cersei)
-        targaryenHouse.add(person: dani)
+        _ = Person(name: "Robb", alias: "El Joven Lobo", house: starkHouse)
+        _ = Person(name: "Arya", house: starkHouse)
+        _ = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse)
+        _ = Person(name: "Cersei", house: lannisterHouse)
+        _ = Person(name: "Jaime", alias: "El matarreyes", house: lannisterHouse)
+        _ = Person(name: "Daenerys", alias: "Madre de dragones", house: targaryenHouse)
 
         return [starkHouse, lannisterHouse, targaryenHouse].sorted()
     }

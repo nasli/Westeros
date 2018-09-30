@@ -55,16 +55,13 @@ class WikiViewController: UIViewController {
 
     // MARK: - Notifications
     @objc func houseDidChange(notification: Notification) {
-        // sacar la info y extraer la casa
+        // Get house from info
         guard let info = notification.userInfo,
             let house: House = info[Constants.houseKey] as? House else { return }
 
-        // Actualizar el modelo
         self.model = house
 
-        // Sincronizar modelo -vista
         syncModelWithView()
-
     }
 
     // MARK: - Sync

@@ -15,7 +15,7 @@ protocol MemberListViewControllerDelegate: class {
 class MemberListViewController: UIViewController {
 
     // MARK: - Properties
-    let model: [Person]
+    var model: [Person]
     var delegate: MemberListViewControllerDelegate?
     
     // MARK: - Outlets
@@ -26,6 +26,8 @@ class MemberListViewController: UIViewController {
         self.model = model
 
         super.init(nibName: nil, bundle: nil)
+
+        title = "Members"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -38,6 +40,36 @@ class MemberListViewController: UIViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector:  #selector(houseDidChange), name: .houseDidChangeNotification, object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Notifications
+    @objc func houseDidChange(notification: Notification) {
+        // Get info
+        guard let info = notification.userInfo,
+            let house: House = info[Constants.houseKey] as? House else { return }
+
+        self.model = house.sortedMembers
+
+        syncModelWithView()
+    }
+
+    // MARK: - Sync
+    func syncModelWithView() {
+
+        self.tableView.reloadData()
     }
 }
 

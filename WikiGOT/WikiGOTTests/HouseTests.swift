@@ -20,10 +20,6 @@ class HouseTests: XCTestCase {
     var starkHouse: House!
     var lannisterHouse: House!
 
-    var robb: Person!
-    var arya: Person!
-    var tyrion: Person!
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         starkSigil = Sigil(image: UIImage(), description: "Lobo Huargo")
@@ -34,10 +30,6 @@ class HouseTests: XCTestCase {
 
         starkHouse = House(name: "Stark", sigil: starkSigil, words: "Se acerca el invierno", url: starkURL )
         lannisterHouse = House(name: "Lannister", sigil: lannisterSigil, words: "Oye mi rugido", url: lannisterURL )
-
-        robb = Person(name: "Robb", alias: "El joven Lobo", house: starkHouse)
-        arya = Person(name: "Arya", house: starkHouse)
-        tyrion = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse)
     }
 
     override func tearDown() {
@@ -52,29 +44,28 @@ class HouseTests: XCTestCase {
         XCTAssertNotNil(starkSigil)
         XCTAssertNotNil(lannisterSigil)
     }
-
     func testHouse_AddPersons_ReturnsTheCorrectCountOfPersons() {
-        XCTAssertEqual(starkHouse.count, 0)
-        starkHouse.add(person: robb)
-        starkHouse.add(person: robb)
-        starkHouse.add(person: robb)
-
-        XCTAssertEqual(starkHouse.count, 1)
-
-        starkHouse.add(person: arya)
-        XCTAssertEqual(starkHouse.count, 2)
 
         XCTAssertEqual(lannisterHouse.count, 0)
-        lannisterHouse.add(person: tyrion)
-        XCTAssertEqual(lannisterHouse.count, 1)
+        let robb = Person(name: "Robb", alias: "El joven Lobo", house: starkHouse)
+        XCTAssertEqual(starkHouse.count, 1)
+        starkHouse.add(person: robb)
+        starkHouse.add(person: robb)
+        starkHouse.add(person: robb)
+        XCTAssertEqual(starkHouse.count, 1)
 
-        starkHouse.add(person: tyrion)
+        let arya = Person(name: "Arya", house: starkHouse)
         XCTAssertEqual(starkHouse.count, 2)
-
+        starkHouse.add(person: arya)
+        XCTAssertEqual(starkHouse.count, 2)
     }
 
     func testHouse_AddPersonsAtOnce_ReturnsTheCorrectCountOfPersons() {
-        XCTAssertEqual(starkHouse.count, 0)
+        let robb = Person(name: "Robb", alias: "El joven Lobo", house: starkHouse)
+        let arya = Person(name: "Arya", house: starkHouse)
+        let tyrion = Person(name: "Tyrion", alias: "El enano", house: lannisterHouse)
+
+        XCTAssertEqual(starkHouse.count, 2)
         starkHouse.add(persons: robb, arya, tyrion)
 
         XCTAssertEqual(starkHouse.count, 2)

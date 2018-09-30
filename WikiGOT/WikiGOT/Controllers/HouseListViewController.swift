@@ -36,16 +36,15 @@ class HouseListViewController: UITableViewController {
         registerCustomCell()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        //self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     func registerCustomCell() {
-        // Siempre que usemos celdas personalizadas primero tenemos que registrarlas
-        let nib = UINib(nibName: "HouseCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: HouseCell.reuseIdentifier) // TODO: extraer en constancte housecell
+        let nib = UINib(nibName: "HouseCell", bundle: nil) // TODO: constant cell
+        tableView.register(nib, forCellReuseIdentifier: HouseCell.reuseIdentifier)
     }
 
     // MARK: - Table view data source
@@ -95,8 +94,6 @@ class HouseListViewController: UITableViewController {
 
             if UIDevice.current.userInterfaceIdiom == .phone {
                 navigationController?.pushViewController(houseDetailViewController, animated: true)
-            } else {
-                splitViewController?.showDetailViewController(houseDetailViewController.wrappedInNavigation(), sender: nil)
             }
         }
     }

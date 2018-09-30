@@ -34,6 +34,8 @@ class EpisodeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        title = "Episode"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +50,6 @@ class EpisodeDetailViewController: UIViewController {
         airDateLabel.text = model.airDate.toString()
         seasonLabel.text = model.season?.name
 
-        title = model.name
         self.loadViewIfNeeded()
     }
 }

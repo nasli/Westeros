@@ -39,7 +39,27 @@ class HouseDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector:  #selector(houseDidChange), name: .houseDidChangeNotification, object: nil)
         
+        syncModelWithView()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Notifications
+    @objc func houseDidChange(notification: Notification) {
+        // Get house from info
+        guard let info = notification.userInfo,
+            let house: House = info[Constants.houseKey] as? House else { return }
+
+        self.model = house
+
         syncModelWithView()
     }
 

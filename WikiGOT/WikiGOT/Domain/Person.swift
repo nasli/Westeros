@@ -12,7 +12,8 @@ final class Person {
 
     // MARK: - Properties
     let name: String
-    weak var house: House?
+    let house: House
+
     private let _alias: String?
 
     var alias: String {
@@ -25,19 +26,21 @@ final class Person {
     init(name: String, alias: String? = nil, house: House) {
         self.name = name
         self._alias = alias
+
         self.house = house
+        self.house.add(person: self)
     }
 }
 
 extension Person {
     var fullName: String {
-        return "\(name) \(house!.name)"
+        return "\(name) \(house.name)"
     }
 }
 
 extension Person {
     var proxyForEquality: String {
-        return "\(name)\(alias)\(house!.name)"
+        return "\(name)\(alias)\(house.name)"
     }
 
     var proxyForComparison: String {

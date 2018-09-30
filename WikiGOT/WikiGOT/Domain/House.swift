@@ -40,7 +40,7 @@ extension House {
     }
 
     func add(person: Person) {
-        guard self.name == person.house!.name else {
+        guard self.name == person.house.name else {
             return
         }
         _members.insert(person)

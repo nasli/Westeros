@@ -72,6 +72,11 @@ extension SeasonListViewController: UITableViewDelegate {
 
         delegate?.seasonListViewController(self, didSelectSeason: theSeason)
 
+        // Notify
+        let nc = NotificationCenter.default
+        let notification = Notification(name: .seasonDidChangeNotification, object: self, userInfo: [Constants.seasonKey : theSeason])
+        nc.post(notification)
+
         // keep state
         saveLastSelectedSeason(at: indexPath.row)
 
@@ -79,12 +84,9 @@ extension SeasonListViewController: UITableViewDelegate {
 
             if UIDevice.current.userInterfaceIdiom == .phone {
                 navigationController?.pushViewController(seasonDetailViewController, animated: true)
-            } else {
-                splitViewController?.showDetailViewController(seasonDetailViewController.wrappedInNavigation(), sender: nil)
             }
         }
     }
-
 }
 
 

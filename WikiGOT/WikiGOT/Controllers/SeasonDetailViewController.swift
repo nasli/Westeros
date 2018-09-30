@@ -34,10 +34,32 @@ class SeasonDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        title = "Season"
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector:  #selector(seasonDidChange), name: .seasonDidChangeNotification, object: nil)
+        
+        syncModelWithView()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Notifications
+    @objc func seasonDidChange(notification: Notification) {
+        // Get season
+        guard let info = notification.userInfo,
+            let season: Season = info[Constants.seasonKey] as? Season else { return }
+
+        model = season
 
         syncModelWithView()
     }
@@ -48,8 +70,6 @@ class SeasonDetailViewController: UIViewController {
         dateLabel.text = model.firstAiredDate.toString()
         episodesListButton.setTitle("Episodes List", for: .normal)
         episodesListButton.addTarget(self, action:#selector(displayEpisodes(_sender:)), for: .touchUpInside)
-        
-        title = model.name
         
         self.loadViewIfNeeded()
     }

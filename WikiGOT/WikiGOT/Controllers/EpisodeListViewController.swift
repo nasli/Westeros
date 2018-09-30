@@ -15,7 +15,7 @@ protocol EpisodeListViewControllerDelegate: class {
 class EpisodeListViewController: UIViewController {
 
     // MARK: - Properties
-    let model: [Episode]
+    var model: [Episode]
     var delegate: EpisodeListViewControllerDelegate?
     
     // MARK: - Outlets
@@ -39,7 +39,40 @@ class EpisodeListViewController: UIViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+
+        title = "Episodes"
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector:  #selector(seasonDidChange), name: .seasonDidChangeNotification, object: nil)
+        
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Notifications
+    @objc func seasonDidChange(notification: Notification) {
+        // Get episodes of season
+        guard let info = notification.userInfo,
+            let season: Season = info[Constants.seasonKey] as? Season else { return }
+
+        model = season.sortedEpisodes
+
+        syncModelWithView()
+    }
+
+    // MARK: - Sync
+    func syncModelWithView() {
+        self.tableView.reloadData()
+    }
+    
 }
 
 extension EpisodeListViewController: UITableViewDataSource {
